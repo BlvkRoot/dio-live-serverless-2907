@@ -97,7 +97,7 @@ resources:
                 - dynamodb:GetItem
                 - dynamodb:Scan
               Resource:
-                - arn:aws:dynamodb:us-east-1:167880115321:table/ItemTable
+                - arn:aws:dynamodb:us-west-2:763237336453:table/itemsTable
   ```
   
    - Instalar dependências
@@ -108,32 +108,32 @@ resources:
   - Atualizar lista de funções no arquivo serverless.yml
   ```
   functions:
-  hello:
-    handler: src/hello.handler
+  home:
+    handler: src/index.handler
     events:
       - http:
           path: /
           method: get
   insertItem:
-    handler: src/insertItem.handler
+    handler: src/functions/create.handler
     events:
       - http:
           path: /item
           method: post
-  fetchItems:
-    handler: src/fetchItems.handler
+  listItem:
+    handler: src/functions/list.handler
     events:
       - http:
           path: /items
           method: get
-  fetchItem:
-    handler: src/fetchItem.handler
+  showItem:
+    handler: src/functions/show.handler
     events:
       - http:
           path: /items/{id}
           method: get
   updateItem:
-    handler: src/updateItem.handler
+    handler: src/functions/update.handler
     events:
       - http:
           path: /items/{id}
