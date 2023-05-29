@@ -1,66 +1,56 @@
-service: dio-live-project
-
-frameworkVersion: '2'
-
+service: dio-live-serverless-project
+frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
-  region: us-east-1
+  runtime: nodejs18.x
+  region: us-west-2
   iam:
-      role:
-          statements:
-            - Effect: Allow
-              Action:
-                - dynamodb:PutItem
-                - dynamodb:UpdateItem
-                - dynamodb:GetItem
-                - dynamodb:Scan
-              Resource:
-                - arn:aws:dynamodb:us-east-1:167880115321:table/ItemTable
-                
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:DeleteItem
+            - dynamodb:UpdateItem
+            - dynamodb:Scan
+          Resource:
+            - arn:aws:dynamodb:us-west-2:763237336453:table/itemsTable
 functions:
-  hello:
-    handler: src/hello.handler
+  home:
+    handler: src/index.handler
     events:
-      - http:
+      - httpApi:
           path: /
           method: get
-  insertItem:
-    handler: src/insertItem.handler
+  createItem:
+    handler: src/functions/create.handler
     events:
-      - http:
+      - httpApi:
           path: /item
           method: post
-  fetchItems:
-    handler: src/fetchItems.handler
+  listItem:
+    handler: src/functions/list.handler
     events:
-      - http:
-          path: /items
+      - httpApi:
+          path: /item
           method: get
-  fetchItem:
-    handler: src/fetchItem.handler
+  showItem:
+    handler: src/functions/show.handler
     events:
-      - http:
-          path: /items/{id}
+      - httpApi:
+          path: /item/{id}
           method: get
-  updateItem:
-    handler: src/updateItem.handler
-    events:
-      - http:
-          path: /items/{id}
-          method: put
 resources:
   Resources:
-    ItemTable:
+    itemsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-          TableName: ItemTable
-          BillingMode: PAY_PER_REQUEST
-          AttributeDefinitions:
-            - AttributeName: id
-              AttributeType: S
-          KeySchema:
-            - AttributeName: id
-              KeyType: HASH
+        TableName: itemsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
