@@ -48,19 +48,16 @@ $ code .
 
 #### Estruturar o código
 
-- Criar o diretório "src" e mover o arquivo "handler.js" para dentro dele
-- Renomear o arquivo "handler.js" para "hello.js"
+- Criar o diretório "src" e mover o arquivo "index.js" para dentro dele
+- Renomear o arquivo "index.js" para "index.mjs"
 - Atualizar o código 
 ```
-const hello = async (event) => {
+export const handler = async (event) => {}
 /////
-module.exports = {
-    handler:hello
-}
 ```
 - Atualizar o arquivo "serverless.yml "
 ```
-handler: src/hello.handler
+handler: src/index.handler
 ```
 ```$ serverless deploy -v ```
 
