@@ -48,6 +48,12 @@ functions:
       - httpApi:
           path: /item/{id}
           method: put
+  deleteItem:
+    handler: src/functions/delete.handler
+    events:
+      - httpApi:
+          path: /item/{id}
+          method: delete
 resources:
   Resources:
     itemsTable:
